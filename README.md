@@ -1,6 +1,6 @@
-# AgroScan
+# Sasya 
 
-AgroScan is a Flutter application that allows users to scan a crop or plant using their phone camera and identify the plant using an AI API.
+Sasya is a Flutter application that allows users to scan a crop or plant using their phone camera and identify the plant using an AI API.
 
 ## 🚀 Getting Started
 
