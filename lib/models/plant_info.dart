@@ -18,7 +18,7 @@ class PlantInfo {
   factory PlantInfo.fromJson(Map<String, dynamic> json) {
     return PlantInfo(
       commonName: json['common_name'] ?? 'Unknown',
-      scientificName: json['scientific_name'] ?? 'Unknown',
+      scientificName: json['sc_name'] ?? json['scientific_name'] ?? 'Unknown',
       kingdom: json['kingdom'] ?? 'Unknown',
       family: json['family'] ?? 'Unknown',
       plantGroup: json['plant_group'] ?? 'Unknown',

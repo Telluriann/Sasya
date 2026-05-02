@@ -1,37 +1,61 @@
-import 'dart:convert';
 import 'package:camera/camera.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart'; // For debugPrint
 import '../models/plant_info.dart';
-// import 'package:http/http.dart' as http; // Uncomment when using real API
 
 class ApiService {
-  // Replace with real real API endpoint
-  // static const String _mockApiUrl = 'https://mock.api/plants/identify';
-
   Future<PlantInfo?> identifyPlant(XFile imageFile) async {
-    // MOCK IMPLEMENTATION
-    // Delay to simulate network request
-    await Future.delayed(const Duration(seconds: 2));
+    // Manually setting plantName to "sunflower" as requested
+    String plantName = "rice";
 
-    // For the starter code, we return mock data exactly as the UI expects.
-    // To connect a real API, use an http multipar request:
-    /*
-    var request = http.MultipartRequest('POST', Uri.parse(_mockApiUrl));
-    request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
-    // add headers, auth, etc.
-    var response = await request.send();
-    if (response.statusCode == 200) {
-      final respStr = await response.stream.bytesToString();
-      return PlantInfo.fromJson(jsonDecode(respStr));
+    debugPrint('=== FIRESTORE FETCH INITIATED ===');
+    debugPrint(
+        'Attempting to query collection: "plants" for document ID: "$plantName"');
+
+    try {
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('plants')
+          .doc(plantName)
+          .get();
+
+      debugPrint('Query completed. Document exists? ${docSnapshot.exists}');
+
+      if (docSnapshot.exists && docSnapshot.data() != null) {
+        final data = docSnapshot.data()!;
+
+        // Log the result in the console
+        debugPrint('--- Firestore Data Fetched ---');
+        debugPrint('Raw Data: $data');
+        debugPrint('common_name: ${data['common_name']}');
+        debugPrint('sc_name: ${data['sc_name']}');
+        debugPrint('------------------------------');
+
+        return PlantInfo.fromJson(data);
+      } else {
+        // Handle the case when the document does not exist
+        debugPrint(
+            'Document for "$plantName" does not exist or has null data.');
+        return PlantInfo(
+          commonName: 'Not Found',
+          scientificName: 'N/A',
+          kingdom: 'N/A',
+          family: 'N/A',
+          plantGroup: 'N/A',
+          description: 'No data found for plant: "$plantName" in the database.',
+        );
+      }
+    } catch (e, stacktrace) {
+      debugPrint('!!! Error fetching from Firestore !!!');
+      debugPrint('Error Details: $e');
+      debugPrint('Stacktrace: $stacktrace');
+      return PlantInfo(
+        commonName: 'Error',
+        scientificName: 'N/A',
+        kingdom: 'N/A',
+        family: 'N/A',
+        plantGroup: 'N/A',
+        description: 'Failed to fetch plant data from database: $e',
+      );
     }
-    */
-
-    return PlantInfo(
-      commonName: 'Sunflower',
-      scientificName: 'Helianthus annuus',
-      kingdom: 'Plantae',
-      family: 'Asteraceae',
-      plantGroup: 'Angiosperms',
-      description: 'The sunflower is a tall, bright yellow flower known for its large head and seeds.',
-    );
   }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "653154376874",
+    "project_id": "sasya-aef45",
+    "storage_bucket": "sasya-aef45.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653154376874:android:fd7fa767056477d49d84d3",
+        "android_client_info": {
+          "package_name": "com.example.sasya"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC56jo0g44q9BipGGp61f1xxz6d3bHiC0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
