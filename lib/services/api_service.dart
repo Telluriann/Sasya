@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart'; // For debugPrint
 import '../models/plant_info.dart';
 
@@ -22,6 +23,9 @@ class ApiService {
 
       if (docSnapshot.exists && docSnapshot.data() != null) {
         final data = docSnapshot.data()!;
+
+        debugPrint(
+            'Current User UID: ${FirebaseAuth.instance.currentUser?.uid}');
 
         // Log the result in the console
         debugPrint('--- Firestore Data Fetched ---');
